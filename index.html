@@ -10,7 +10,7 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-        <link href="css/custom.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -54,8 +54,8 @@
                 </span>
             <br>
             <span>Balance: <span id="eurbalance">1000</span> €</span>
-                <br><span>
-Account Nr: 5003b                </span>
+            <br><span>
+Account Nr: <span id="accountNr">5003b</span>                </span>
             </span>
 
         </div>
@@ -71,18 +71,18 @@ Account Nr: 5003b                </span>
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 text-center">
             <h1>Send EUR to this Bitcoin address</h1>
-                        <h2 id="btcRate">rrrr</h2>
-                                    <h2>You will send <span id="btcToSend"></span> bitcoins with this sum</h2>
+            <h2 id="btcRate">rrrr</h2>
+            <h2>You will send <span id="btcToSend"></span> bitcoins with this sum</h2>
 
 
             <div class="col-lg-8 col-lg-offset-2     text-center">
 
-                    <div class="form-group">
-                        <label for="exampleInputName2">Sum €</label>
-                        <input type="text" class="form-control input-lg text-center" id="amount" placeholder="100">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail2">BTC address</label>
+                <div class="form-group">
+                    <label for="exampleInputName2">Sum €</label>
+                    <input type="text" class="form-control input-lg text-center" id="amount" placeholder="100">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail2">BTC address</label>
 
 <span><img class="btc-logo" src="https://bitcoin.org/img/icons/opengraph.png">
 
@@ -94,18 +94,18 @@ Account Nr: 5003b                </span>
 
 </select>
     </span>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12    text-center">
+                </div>
+                <div class="row">
+                    <div class="col-lg-12    text-center">
 
-                            <button type="submit" id="sender" class="btn btn-block btn-success input-lg">Send EUR <span
-                                class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>
+                        <button type="submit" id="sender" class="btn btn-block btn-success input-lg">Send EUR <span
+                            class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>
+                    </div>
+                </div>
+
             </div>
         </div>
-
     </div>
-</div>
-</div>
 </div>
 <div class="row">
     <div class="col-lg-12    text-center">
@@ -118,8 +118,23 @@ Account Nr: 5003b                </span>
 
                 <!-- Table -->
                 <table class="table transaction-table">
-                   <tbody>
-                   </tbody>
+                    <thead>
+                    <th>Date</th>
+                    <th>Sum</th>
+
+                    <th>From</th>
+
+
+                    <th>Direction:</th>
+                    <th>Bitcoin Sum</th>
+
+
+                    <th>Bitcoin address</th>
+
+
+                    </thead>
+                    <tbody>
+                    </tbody>
                 </table>
 
             </div>
@@ -144,14 +159,17 @@ Account Nr: 5003b                </span>
 
     $(function () {
 
-        var url = "http://bitcoinrpc:44sCpMzWlXvVnKVlNW2V8LKtB0Lbvw2yBHOs5N8yoBNZu@127.0.0.1:18332";
+        var url = "http://rpc:rpc@127.0.0.1:18332";
         var $amount = $('#amount');
+        var $accountNr = $('#accountNr');
+
         var $btc = $('#btc');
         var $eurbalance = $('#eurbalance');
 
         var walletUrl = "http://johanness-macbook-pro-2.local/server.php";
 
         var btcRate = {};
+        var $btcToSend = $("#btcToSend");
 
         $.getJSON("http://api.coindesk.com/v1/bpi/currentprice.json", function (result) {
             console.log(result.bpi.EUR.rate);
@@ -161,24 +179,23 @@ Account Nr: 5003b                </span>
 
         });
 
-         $.get(walletUrl, function (result) {
+        $.get(walletUrl, function (result) {
 
-                                           console.log(result);
+            console.log(result);
 
-          result =   JSON.parse( result);
+            result = JSON.parse(result);
 
 
-             $.each(result, function( index, value ) {
+            $.each(result, function (index, value) {
 
 
                 var d = new Date(value.time * 1000);
-                if(value.category === "send")
+                     if(value.category === "send")
 
-                             $(".transaction-table tbody").append("<tr><td>"+d+"</td> <td><span class='sum eur-sum'>" + value.address+ "</span> </td> <td><span class='glyphicon glyphicon-arrow-right' aria-hidden='true'></span> </td> <td><span class='sum btc-address'>" + $btc.val() + "</span> </td> </tr>");
+                        $(".transaction-table tbody").append("<tr><td>"+d+"</td> <td><span class='sum eur-sum'>" + value.address+ "</span> </td> <td><span class='glyphicon glyphicon-arrow-right' aria-hidden='true'></span> </td> <td><span class='sum btc-address'>" + $btc.val() + "</span> </td> </tr>");
 
 
-
-             });
+            });
 
         });
 
@@ -189,17 +206,14 @@ Account Nr: 5003b                </span>
 
             console.log(floatValue);
 
-             var result =    parseFloat(floatValue).toFixed(2);
+            var result = parseFloat(floatValue).toFixed(2);
 
-            if(isNaN(result))
+            if (isNaN(result))
                 result = '0';
 
             $("#btcToSend").html(result);
         });
 
-         $($amount).change(function () {
-            $("#btcToSend").html(parseInt($amount.val(), 10) / parseInt(btcRate.rate, 10));
-        });
 
 
         $("#sender").click(function () {
@@ -207,41 +221,42 @@ Account Nr: 5003b                </span>
 
             $("#transactions").html(
                 "<div class='alert alert-success' role='alert'>Transaction succeded!</div>"
-
-
-
             );
-            var $newAccountSum = parseInt($eurbalance.text(), 10) - parseInt($amount.text(),10);
-            console.log(parseInt($amount.text(),10));
+            var $newAccountSum = parseInt($eurbalance.text(), 10) - parseInt($amount.text(), 10);
+            console.log(parseInt($amount.text(), 10));
             $eurbalance.html($newAccountSum);
-                var d = new Date();
+            var d = new Date();
+
+            var parsedBtc = parseFloat($btcToSend.text()).toFixed(2);
 
 
+            $(".transaction-table tbody").append("<tr><td>" + d + "</td> <td><span class='sum eur-sum'>" + $amount.val() + "</span></td> <td><span class='sum eur-sum'>" + $accountNr.text() + "</span></td> <td><span class='glyphicon spanarrow glyphicon-arrow-right' aria-hidden='true'></span> </td> <td><span class='sum btc-address'>" + parsedBtc + "</span> </td> <td><span class='sum btc-address'>" + $btc.val() + "</span> </td> </tr>");
 
-            $(".transaction-table tbody").append("<tr><td>"+d+"</td> <td><span class='sum eur-sum'>" + $amount.val() + "</span> </td> <td><span class='glyphicon glyphicon-arrow-right' aria-hidden='true'></span> </td> <td><span class='sum btc-address'>" + $btc.val() + "</span> </td> </tr>");
+           $.ajax({
+            url: 'http://johanness-macbook-pro-2.local/server.php?sendBtc=sendBtc&amount'+ parsedBtc,
+            dataType: 'json',
+            type: 'GET',
+            data: {sendBtc: 'sendBtc', amount : 0.03 },
+            // For parameters:
+            //data: '{"method": "API_METHOD", "params": ["PARAMETERS"]}',
+            timeout: 15000,
+            success: function (data) {
+
+                console.log(data);
+                // Response lives in data.result (data.result.version, etc)
+            },
+            error: function (oops) {
+
+                console.log(oops);
+
+                // oops.statusText returns error
+            }
         });
 
-//        $.ajax({
-//            url: url,
-//            dataType: 'json',
-//            type: 'POST',
-//            contentType: 'application/json',
-//            data: '{"method": "getbalance"}',
-//            // For parameters:
-//            //data: '{"method": "API_METHOD", "params": ["PARAMETERS"]}',
-//            timeout: 15000,
-//            success: function (data) {
-//
-//                console.log(data);
-//                // Response lives in data.result (data.result.version, etc)
-//            },
-//            error: function (oops) {
-//
-//                console.log(oops);
-//
-//                // oops.statusText returns error
-//            }
-//        });
+
+        });
+
+
 
     });
 

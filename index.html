@@ -53,9 +53,7 @@
                 <!-- badge -->
                 </span>
             <br>
-            <span>
-
-           Balance: 250 €</span>
+            <span>Balance: <span id="eurbalance">1000</span> €</span>
                 <br><span>
 Account Nr: 5003b                </span>
             </span>
@@ -83,19 +81,21 @@ Account Nr: 5003b                </span>
                     <div class="form-group">
                         <label for="exampleInputEmail2">BTC address</label>
 
+<span><img class="btc-logo" src="https://bitcoin.org/img/icons/opengraph.png">
 
-                        <select class="form-control" id="btc">
+                        <select class="form-control input-lg" id="btc">
   <option>1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY</option>
   <option>n4Md8cEyiVdzu1QMRMKp6gYm461PA9UvQ9</option>
   <option>n3jPNHTDD5AG4L5Hp9Vh9vCfVYQH8dCE9M</option>
   <option>1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY</option>
 
 </select>
+    </span>
                     </div>
                     <div class="row">
                         <div class="col-lg-12    text-center">
 
-                            <button type="submit" id="sender" class="btn btn-success input-lg">Send EUR <span
+                            <button type="submit" id="sender" class="btn btn-block btn-success input-lg">Send EUR <span
                                 class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>
                 </form>
             </div>
@@ -145,6 +145,8 @@ Account Nr: 5003b                </span>
         var url = "http://bitcoinrpc:44sCpMzWlXvVnKVlNW2V8LKtB0Lbvw2yBHOs5N8yoBNZu@127.0.0.1:18332";
         var $amount = $('#amount');
         var $btc = $('#btc');
+        var $eurbalance = $('#eurbalance');
+
 
 
         $("#sender").click(function () {
@@ -155,6 +157,10 @@ Account Nr: 5003b                </span>
 
 
             );
+            var $newAccountSum = parseInt($eurbalance.text(), 10) - parseInt($amount.text(),10);
+            console.log(parseInt($amount.text(),10));
+            $eurbalance.html(parseInt($amount.text()),10);
+
             $(".transaction-table tbody").append("<tr> <td><span class='sum eur-sum'>" + $amount.val() + "</span> </td> <td><span class='glyphicon glyphicon-arrow-right' aria-hidden='true'></span> </td> <td><span class='sum btc-address'>" + $btc.val() + "</span> </td> </tr>");
         });
 

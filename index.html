@@ -46,7 +46,14 @@
             </li>
 
         </ul>
-        <div class="account-details pull-right">
+
+
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <img src=""
+  <div class="container">
+ <div class="account-details pull-right">
             <span class="profile-header-img">
                 <img class="img-circle"
                      src="https://create50.s3.amazonaws.com/uploads/profile/mark-hampton/small_Mark_Hampton_2013__Headshot_.jpg"/>
@@ -58,9 +65,8 @@
 Account Nr: <span id="accountNr">5003b</span>                </span>
             </span>
 
-        </div>
-
-    </div>
+        </div>  </div>
+</nav>
     <!-- /.navbar-collapse -->
 </div>
 <!-- /.container -->
@@ -87,10 +93,10 @@ Account Nr: <span id="accountNr">5003b</span>                </span>
 <span><img class="btc-logo" src="https://bitcoin.org/img/icons/opengraph.png">
 
                         <select class="form-control input-lg" id="btc">
-  <option>1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY</option>
-  <option>n4Md8cEyiVdzu1QMRMKp6gYm461PA9UvQ9</option>
-  <option>n3jPNHTDD5AG4L5Hp9Vh9vCfVYQH8dCE9M</option>
-  <option>1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY</option>
+  <option>1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY (South American cousin)</option>
+  <option>n4Md8cEyiVdzu1QMRMKp6gYm461PA9UvQ9 (Antarctica)</option>
+  <option>msw5WTx9z67VPWPPp8p1aYKNc8xaaLKF5j (Joerg)</option>
+  <option>1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY (Japan mother)</option>
 
 </select>
     </span>
@@ -167,7 +173,7 @@ Account Nr: <span id="accountNr">5003b</span>                </span>
         var $eurbalance = $('#eurbalance');
 
         var walletUrl = "http://johanness-macbook-pro-2.local/server.php";
-
+        var apitoken = "eyJraWQiOiJyc2ExIiwiYWxnIjoiUlMyNTYifQ.eyJhdWQiOiJkZXZlbG9wZXJwb3J0YWwiLCJpc3MiOiJodHRwczpcL1wvc2ltdWxhdG9yLWFwaS5kYi5jb21cL2d3XC9vaWRjXC8iLCJleHAiOjE0Nzc3NzI1MTQsImlhdCI6MTQ3Nzc2ODkxNCwianRpIjoiZjdlNTZjODItNGI4Ni00OTJlLWIwZDgtZjgyYTM5MzE4NGE4In0.UeoUgdlAsoBF_agHfBeWBQynW2HjWCbZ_F0-tI8KDDZY0R04fjnZF262PgoN5eBhu2QTV7LXX2p_gTGrBgClsHLUIjhjdbSzIqtBssgUwFif0sbm0jQr99FoI45X9vKQ7GttQlvhyY-CPB3ZgCrPDtcpsU6DYy9BfA6AU0ipo59AT0dlEjv7MnXOFuOJNf_-PLJeM8OGpYY2ZC0BVgqWvU1rL6cCm4bCtSsg0AdC1SEl_MHOh3QsZZhDJwiZFcR-LltcgOf3c-TKAYXMO7BwPoPI3BqddHiEh7xY8aiBI868CMRaEn3WVIQEsPjhzapmI5-hMT7PCD8dwe1-piUpgw";
         var btcRate = {};
         var $btcToSend = $("#btcToSend");
 
@@ -178,6 +184,22 @@ Account Nr: <span id="accountNr">5003b</span>                </span>
 
 
         });
+         $.ajax({
+            type:"GET",
+            beforeSend: function (request)
+            {
+
+                request.setRequestHeader("X-Token", apitoken);
+            },
+            url: "http://localhost:8880/cashAccounts",
+            success: function(msg) {
+                  console.log(msg);
+
+            }
+    });
+
+
+
 
         $.get(walletUrl, function (result) {
 

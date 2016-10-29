@@ -71,6 +71,10 @@ Account Nr: 5003b                </span>
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 text-center">
             <h1>Send EUR to this Bitcoin address</h1>
+                        <h2 id="btcRate">rrrr</h2>
+                                    <h2>You will send <span id="btcToSend"></span> bitcoins with this sum</h2>
+
+
             <div class="col-lg-8 col-lg-offset-2     text-center">
 
                 <form class="form-group">
@@ -147,9 +151,38 @@ Account Nr: 5003b                </span>
         var $btc = $('#btc');
         var $eurbalance = $('#eurbalance');
 
+        var btcRate = {};
+
+        $.getJSON("http://api.coindesk.com/v1/bpi/currentprice.json", function (result) {
+            console.log(result.bpi.EUR.rate);
+            btcRate.rate = result.bpi.EUR.rate;
+            $("#btcRate").html("Current rate is " + btcRate.rate + "€");
+
+
+        });
+
+
+        $($amount).keyup(function () {
+
+            var floatValue = parseInt($amount.val(), 10) / parseInt(btcRate.rate, 10);
+
+            console.log(floatValue);
+
+             var result =    parseFloat(floatValue).toFixed(2);
+
+            if(isNaN(result))
+                result = '0';
+
+            $("#btcToSend").html(result);
+        });
+
+         $($amount).change(function () {
+            $("#btcToSend").html(parseInt($amount.val(), 10) / parseInt(btcRate.rate, 10));
+        });
 
 
         $("#sender").click(function () {
+            console.log(btcRate.rate);
 
             $("#transactions").html(
                 "<div class='alert alert-success' role='alert'>Transaction succeded!</div>"

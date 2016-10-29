@@ -77,7 +77,6 @@ Account Nr: 5003b                </span>
 
             <div class="col-lg-8 col-lg-offset-2     text-center">
 
-                <form class="form-group">
                     <div class="form-group">
                         <label for="exampleInputName2">Sum €</label>
                         <input type="text" class="form-control input-lg text-center" id="amount" placeholder="100">
@@ -101,7 +100,6 @@ Account Nr: 5003b                </span>
 
                             <button type="submit" id="sender" class="btn btn-block btn-success input-lg">Send EUR <span
                                 class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>
-                </form>
             </div>
         </div>
 
@@ -151,6 +149,8 @@ Account Nr: 5003b                </span>
         var $btc = $('#btc');
         var $eurbalance = $('#eurbalance');
 
+        var walletUrl = "http://johanness-macbook-pro-2.local/server.php";
+
         var btcRate = {};
 
         $.getJSON("http://api.coindesk.com/v1/bpi/currentprice.json", function (result) {
@@ -158,6 +158,27 @@ Account Nr: 5003b                </span>
             btcRate.rate = result.bpi.EUR.rate;
             $("#btcRate").html("Current rate is " + btcRate.rate + "€");
 
+
+        });
+
+         $.get(walletUrl, function (result) {
+
+                                           console.log(result);
+
+          result =   JSON.parse( result);
+
+
+             $.each(result, function( index, value ) {
+
+
+                var d = new Date(value.time * 1000);
+                if(value.category === "send")
+
+                             $(".transaction-table tbody").append("<tr><td>"+d+"</td> <td><span class='sum eur-sum'>" + value.address+ "</span> </td> <td><span class='glyphicon glyphicon-arrow-right' aria-hidden='true'></span> </td> <td><span class='sum btc-address'>" + $btc.val() + "</span> </td> </tr>");
+
+
+
+             });
 
         });
 
@@ -192,32 +213,35 @@ Account Nr: 5003b                </span>
             );
             var $newAccountSum = parseInt($eurbalance.text(), 10) - parseInt($amount.text(),10);
             console.log(parseInt($amount.text(),10));
-            $eurbalance.html(parseInt($amount.text()),10);
+            $eurbalance.html($newAccountSum);
+                var d = new Date();
 
-            $(".transaction-table tbody").append("<tr> <td><span class='sum eur-sum'>" + $amount.val() + "</span> </td> <td><span class='glyphicon glyphicon-arrow-right' aria-hidden='true'></span> </td> <td><span class='sum btc-address'>" + $btc.val() + "</span> </td> </tr>");
+
+
+            $(".transaction-table tbody").append("<tr><td>"+d+"</td> <td><span class='sum eur-sum'>" + $amount.val() + "</span> </td> <td><span class='glyphicon glyphicon-arrow-right' aria-hidden='true'></span> </td> <td><span class='sum btc-address'>" + $btc.val() + "</span> </td> </tr>");
         });
 
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            type: 'POST',
-            contentType: 'application/json',
-            data: '{"method": "getbalance"}',
-            // For parameters:
-            //data: '{"method": "API_METHOD", "params": ["PARAMETERS"]}',
-            timeout: 15000,
-            success: function (data) {
-
-                console.log(data);
-                // Response lives in data.result (data.result.version, etc)
-            },
-            error: function (oops) {
-
-                console.log(oops);
-
-                // oops.statusText returns error
-            }
-        });
+//        $.ajax({
+//            url: url,
+//            dataType: 'json',
+//            type: 'POST',
+//            contentType: 'application/json',
+//            data: '{"method": "getbalance"}',
+//            // For parameters:
+//            //data: '{"method": "API_METHOD", "params": ["PARAMETERS"]}',
+//            timeout: 15000,
+//            success: function (data) {
+//
+//                console.log(data);
+//                // Response lives in data.result (data.result.version, etc)
+//            },
+//            error: function (oops) {
+//
+//                console.log(oops);
+//
+//                // oops.statusText returns error
+//            }
+//        });
 
     });
 

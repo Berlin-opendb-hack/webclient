@@ -10,6 +10,9 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+        <link href="css/custom.css" rel="stylesheet">
+
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -43,6 +46,22 @@
             </li>
 
         </ul>
+        <div class="account-details pull-right">
+            <span class="profile-header-img">
+                <img class="img-circle"
+                     src="https://create50.s3.amazonaws.com/uploads/profile/mark-hampton/small_Mark_Hampton_2013__Headshot_.jpg"/>
+                <!-- badge -->
+                </span>
+            <br>
+            <span>
+
+           Balance: 250 €</span>
+                <br><span>
+Account Nr: 5003b                </span>
+            </span>
+
+        </div>
+
     </div>
     <!-- /.navbar-collapse -->
 </div>
@@ -53,27 +72,53 @@
 
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 text-center">
-            <h1>Sends EUR to this Bitcoin address</h1>
-            <div class="col-lg-4 col-lg-offset-4     text-center">
+            <h1>Send EUR to this Bitcoin address</h1>
+            <div class="col-lg-8 col-lg-offset-2     text-center">
 
                 <form class="form-group">
                     <div class="form-group">
                         <label for="exampleInputName2">Sum €</label>
-                        <input type="text" class="form-control" id="amount" placeholder="100">
+                        <input type="text" class="form-control input-lg text-center" id="amount" placeholder="100">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail2">BTC address</label>
-                        <input type="email" class="form-control" id="btc"
+                        <input type="email" class="form-control text-center input-lg" id="btc"
                                placeholder="1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY">
                     </div>
-                    <button type="submit" id="sender" class="btn btn-success">Send EUR <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>
+                    <div class="row">
+                        <div class="col-lg-12    text-center">
+
+                            <button type="submit" id="sender" class="btn btn-success input-lg">Send EUR <span
+                                class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>
                 </form>
             </div>
         </div>
-    </div>
 
-    <div id="transactions"></div>
-    <!-- /.row -->
+    </div>
+</div>
+</div>
+</div>
+<div class="row">
+    <div class="col-lg-12    text-center">
+
+        <div id="transactions"></div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Transaction history</div>
+            <div class="panel-body">
+
+                <!-- Table -->
+                <table class="table transaction-table">
+                   <tbody>
+                   </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /.row -->
 
 </div>
 <!-- /.container -->
@@ -98,7 +143,9 @@
                 "<div class='alert alert-success' role='alert'>Transaction succeded!</div>"
 
 
+
             );
+            $(".transaction-table tbody").append("<tr> <td><span class='sum eur-sum'>1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY</span> </td> <td><span class='glyphicon glyphicon-arrow-right' aria-hidden='true'></span> </td> <td><span class='sum btc-address'>1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY</span> </td> </tr>");
         });
 
         $.ajax({

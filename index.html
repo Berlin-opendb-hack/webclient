@@ -82,8 +82,15 @@ Account Nr: 5003b                </span>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail2">BTC address</label>
-                        <input type="email" class="form-control text-center input-lg" id="btc"
-                               placeholder="1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY">
+
+
+                        <select class="form-control" id="btc">
+  <option>1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY</option>
+  <option>n4Md8cEyiVdzu1QMRMKp6gYm461PA9UvQ9</option>
+  <option>n3jPNHTDD5AG4L5Hp9Vh9vCfVYQH8dCE9M</option>
+  <option>1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY</option>
+
+</select>
                     </div>
                     <div class="row">
                         <div class="col-lg-12    text-center">
@@ -136,16 +143,19 @@ Account Nr: 5003b                </span>
     $(function () {
 
         var url = "http://bitcoinrpc:44sCpMzWlXvVnKVlNW2V8LKtB0Lbvw2yBHOs5N8yoBNZu@127.0.0.1:18332";
+        var $amount = $('#amount');
+        var $btc = $('#btc');
 
 
         $("#sender").click(function () {
+
             $("#transactions").html(
                 "<div class='alert alert-success' role='alert'>Transaction succeded!</div>"
 
 
 
             );
-            $(".transaction-table tbody").append("<tr> <td><span class='sum eur-sum'>1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY</span> </td> <td><span class='glyphicon glyphicon-arrow-right' aria-hidden='true'></span> </td> <td><span class='sum btc-address'>1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY</span> </td> </tr>");
+            $(".transaction-table tbody").append("<tr> <td><span class='sum eur-sum'>" + $amount.val() + "</span> </td> <td><span class='glyphicon glyphicon-arrow-right' aria-hidden='true'></span> </td> <td><span class='sum btc-address'>" + $btc.val() + "</span> </td> </tr>");
         });
 
         $.ajax({

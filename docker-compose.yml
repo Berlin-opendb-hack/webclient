@@ -8,6 +8,10 @@ services:
       OPENDB_SCHEME: "https"
       OPENDB_HOST: "simulator-api.db.com"
       OPENDB_PATH: "/gw/dbapi/v1"
+  wallet:
+    image: alinn/btcwallet:0.1
+    environement:
+      KEYFILE: '/keys/testchain.pem'
   blockchain_gate:
     image: alinn/blockchain-gate:0.1
     environment:

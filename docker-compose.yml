@@ -1,0 +1,27 @@
+version: '2'
+services:
+  opendb_mock:
+    image: alinn/opendb-mock:0.3
+    ports:
+     - "8880:8880"
+    environment:
+      OPENDB_SCHEME: "https"
+      OPENDB_HOST: "simulator-api.db.com"
+      OPENDB_PATH: "/gw/dbapi/v1"
+  blockchain_gate:
+    image: alinn/blockchain-gate:0.1
+    environment:
+      BANK_SCHEME: "http"
+      BANK_HOST: "localhost"
+      BANK_PATH: ""
+      MASTER_ACCOUNT_IBAN: "DE000000000000001"
+      MASTER_ACCOUNT_BIC: "DEUTDEDWXXX"
+      MASTER_ACCOUNT_HOLDER: "DBChain GmbH"
+      DEFALULT_BIC: "DEUTDEDWXXX"
+      BLOCKCHAIN_SCHEME: 'http'
+      BLOCKCHAIN_HOST: 'rpc:rpc@10.225.1.67:18332'
+      BLOCKCHAIN_PATH: '/'
+  web:
+    build: .
+    ports:
+      - "8889:8880"
